@@ -150,6 +150,7 @@
       copy:
         src: "{{ compose_local_path }}"
         dest: "{{ compose_remote_path }}"
+        remote_src: yes
     - name: Start Docker containers from Docker Compose
       shell: |
         docker-compose up -d

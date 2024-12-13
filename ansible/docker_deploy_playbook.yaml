@@ -150,7 +150,6 @@
       copy:
         src: "{{ compose_local_path }}"
         dest: "{{ compose_remote_path }}"
-        remote_src: yes
     - name: Start Docker containers from Docker Compose
       shell: |
         docker-compose up -d
@@ -158,14 +157,13 @@
         chdir: "{{ project_src_path }}"
     - name: Run makemigrations inside backend container
       command: docker exec {{ backend_container_name }} python manage.py makemigrations
-
     - name: Run migrate inside backend container
       command: docker exec {{ backend_container_name }} python manage.py migrate
-
     - name: Create superuser inside backend container
       command: >
         docker exec {{ backend_container_name }} python manage.py shell -c
         "from django.contrib.auth import get_user_model;
         User = get_user_model();
         User.objects.filter(username='{{ superuser_username }}').exists() or
-        User.objects.create_superuser('{{ superuser_username }}', '{{ superuser_email }}', '{{ superuser_password }}')"
+        User.objects.create_superuser('{{ superuser_username }}', '{{ superuser_email }}', '{{ superuser_password
+        }}')"
